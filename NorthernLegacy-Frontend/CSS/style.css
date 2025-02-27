@@ -1,0 +1,27 @@
+body {
+    background: url(../IMG/vk-bg1.jpg) #323d3f;
+    background-blend-mode: multiply;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media(max-width: 991px) {
+    .sidebar {
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px)
+    }
+}
+
+.st-card {
+    background-color: #323d3f;
+}
+
+
+.dow {
+    margin-top: -65px;
+}
+
+.st {
+    margin-top: -65px;
+}
