@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const data = await response.json();
             alert(data.message || "Sikeres regisztráció!");
-            indow.location.href = 'login.html'; // átirányítás a bejelentkező oldalra
+            window.location.href = 'login.html'; // Átirányítás
         } catch (error) {
             errorMessage.textContent = "Hiba történt a regisztráció során!";
             console.error("Error:", error);
