@@ -5,16 +5,20 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const app = express();
+const FRONTEND_ORIGIN = "http://127.0.0.1:5500"; // Live Server URL-je
+
 const corsOptions = {
-    credentials: true,  // Sütik küldése engedélyezve
+    origin: FRONTEND_ORIGIN,
+    credentials: true,  // Fontos, hogy a sütik átmenjenek
 };
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(require('cookie-parser')());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use("/Downloads", express.static(__dirname + "/Downloads"));
 
@@ -38,7 +42,6 @@ db.connect((err) => {
 app.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
 
-    // Ellenőrizzük, hogy létezik-e már a felhasználó
     db.query("SELECT * FROM users WHERE email = ?", [email], async (err, results) => {
         if (results.length > 0) {
             return res.status(400).json({ message: "Ez az email már foglalt." });
@@ -48,7 +51,6 @@ app.post("/register", async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Új felhasználó hozzáadása
         db.query(
             "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
             [username, email, hashedPassword],
@@ -70,31 +72,39 @@ app.post("/login", async (req, res) => {
         }
 
         const user = results[0];
-        console.log(user);
-        console.log(password);
-        if (!await bcrypt.compare(password, user.password)) return res.status(400).json({ message: "Hibás jelszó." });
+        if (!await bcrypt.compare(password, user.password)) {
+            return res.status(400).json({ message: "Hibás jelszó." });
+        }
 
         // JWT Token generálás
         const token = jwt.sign({ id: user.id, nev: user.username }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-        res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'lax' });
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,  // HTTPS esetén kell
+            sameSite: "Lax",  // Ha a frontend másik domainen van, ez szükséges
+        });
 
         res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
     });
 });
 
-app.get('/profile', async (req, res) => {
+// PROFIL LEKÉRÉSE
+app.get("/profile", (req, res) => {
     const token = req.cookies.token;
 
-    if (!token) return res.status(401).json({ error: 'Nincs token' });
+    if (!token) {
+        return res.status(401).json({ error: "Nincs token, kérlek jelentkezz be!" });
+    }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(401).json({ error: 'Érvénytelen token' });
+        if (err) {
+            return res.status(401).json({ error: "Érvénytelen token, kérlek jelentkezz be újra!" });
+        }
 
         res.json({ nev: decoded.nev });
     });
 });
-
 
 const PORT = process.env.PORT || 4545;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));

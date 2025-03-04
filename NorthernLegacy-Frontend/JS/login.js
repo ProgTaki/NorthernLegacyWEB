@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const password = document.getElementById('log_pass').value;
 
         try {
-            const response = await fetch("http://localhost:4545/login", {
+            const response = await fetch("http://127.0.0.1:4545/login", {
                 method: "POST",
-                //credentials: 'include',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
