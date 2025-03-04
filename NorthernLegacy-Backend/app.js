@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const nodemailer = require("nodemailer");
 
 const app = express();
 const FRONTEND_ORIGIN = "http://127.0.0.1:5500"; // Live Server URL-je
@@ -105,6 +106,37 @@ app.get("/profile", (req, res) => {
         res.json({ nev: decoded.nev });
     });
 });
+
+app.post("/send-email", async (req, res) => {
+    const { email, subject, message } = req.body;
+  
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "sajatemail@gmail.com",
+        pass: "app_jelszo" // Használj App Password-öt!
+      }
+    });
+  
+    const mailOptions = {
+      from: "sajatemail@gmail.com",
+      to: email,
+      subject: subject,
+      text: message
+    };
+  
+    try {
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ success: true, message: "E-mail elküldve!" });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Hiba történt!", error });
+    }
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`Server fut a ${PORT} porton...`);
+});
+
 
 const PORT = process.env.PORT || 4545;
 app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));

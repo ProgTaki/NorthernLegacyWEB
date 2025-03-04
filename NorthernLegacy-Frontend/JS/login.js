@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
             alert("Bejelentkezés sikeres!");
             // Menthetjük a tokent a helyi tárolóba (localStorage) vagy más módon, ha szükséges
-            localStorage.setItem('token', data.token);  // Mentés például
+            localStorage.setItem('token', data.token);  // Mentés
             data.username
             window.location.href = 'log-index.html'; // Példa átirányítás a belső felületre
         } catch (error) {

@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch("http://127.0.0.1:4545/profile", {
-            method: "GET",  // 🔥 FONTOS: a profile végpont GET metódust használ
-            credentials: "include",  // 🔥 ENGEDÉLYEZI A SÜTIK KÜLDÉSÉT
+            method: "GET",
+            credentials: "include",  // sütik engedélyezése
         });
 
         if (!response.ok) {
