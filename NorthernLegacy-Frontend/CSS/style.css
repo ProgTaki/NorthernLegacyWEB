@@ -1,5 +1,5 @@
 body {
-    background: url(../IMG/vk-bg1.jpg) #323d3f;
+    background: url(../IMG/vk-bg1.jpg) #323d3f; /* Háttér resp !!! */
     background-blend-mode: multiply;
     background-position: center;
     background-size: cover;
