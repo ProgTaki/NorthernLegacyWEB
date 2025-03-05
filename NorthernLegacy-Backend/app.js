@@ -107,35 +107,37 @@ app.get("/profile", (req, res) => {
     });
 });
 
-app.post("/send-email", async (req, res) => {
-    const { email, subject, message } = req.body;
-  
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "sajatemail@gmail.com",
-        pass: "app_jelszo" // Használj App Password-öt!
-      }
-    });
-  
-    const mailOptions = {
-      from: "sajatemail@gmail.com",
-      to: email,
-      subject: subject,
-      text: message
-    };
-  
-    try {
-      await transporter.sendMail(mailOptions);
-      res.status(200).json({ success: true, message: "E-mail elküldve!" });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Hiba történt!", error });
+//email - elfelejtett jelszó
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: "northernlegacygame@gmail.com",
+        pass: "ibkuk xdhd xpxi truq"
     }
-  });
-  
-  app.listen(PORT, () => {
-    console.log(`Server fut a ${PORT} porton...`);
 });
+
+app.post("/api/send-code", async (req, res) => {
+    console.log('Request body:', req.body); // Naplózd a bejövő adatokat
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: "Email is required" });
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+    const mailOptions = {
+        from: "northernlegacygame@gmail.com",
+        to: email,
+        subject: "Your Verification Code",
+        text: `Your verification code is: ${verificationCode}`
+    };
+
+    try {
+        console.log("Sending email..."); // Logoljuk, hogy elkezdjük az email küldést
+        await transporter.sendMail(mailOptions);
+        res.json({ message: "Verification code sent" });
+    } catch (error) {
+        res.status(500).json({ error: "Error sending email" });
+    }
+});
+
 
 
 const PORT = process.env.PORT || 4545;
