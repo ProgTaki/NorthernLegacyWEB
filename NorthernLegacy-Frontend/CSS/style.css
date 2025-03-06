@@ -33,3 +33,9 @@ body {
 .fade-in.show {
     opacity: 1;
 }
+
+.logo-img {
+    width: 60px;  /* A kívánt méret */
+    height: 60px; /* Rögzített magasság a torzulás elkerülésére */
+    object-fit: contain; /* Megőrzi az arányokat, nem nyúlik */
+}
