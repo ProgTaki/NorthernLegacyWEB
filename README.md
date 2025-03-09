@@ -1,2 +1,2 @@
 # NorthernLegacyWEB
-app password: bkuk xdhd xpxi truq
+app password: gsqi nazq pfbr cnqr
