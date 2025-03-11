@@ -42,6 +42,10 @@ async function sendCode(event) {
             button.textContent = "Send Code";
         }, 2000); // Kis késleltetés, hogy ne lehessen spamolni
     }
+
+    setTimeout(() => {
+        window.location.href = "newpassword.html"; // Ide írd be a céloldal URL-jét
+    }, 5000); 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -52,10 +56,4 @@ document.addEventListener("DOMContentLoaded", () => {
         const newButton = document.getElementById("sendCodeButton"); // Újra lekérjük az ID-t
         newButton.addEventListener("click", sendCode);
     }
-
-    document.getElementById("sendCodeButton").addEventListener("click", () => {
-        setTimeout(() => {
-            window.location.href = "newpassword.html";
-        }, 10000); // 5000ms = 5 másodperc
-    });
 })
