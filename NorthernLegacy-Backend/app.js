@@ -117,13 +117,14 @@ const transporter = nodemailer.createTransport({
     pool : false, // duplikáció elkerülése
 });
 
-app.post("/api/send-code", async (req, res) => {
+app.post("/send-code", async (req, res) => {
     if (res.headersSent) return;
     console.log('Request body:', req.body); // Naplózd a bejövő adatokat
     const { email } = req.body;
     if (!email) return res.status(400).json({ error: "Email is required" });
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
+    console.log(verificationCode)
     const mailOptions = {
         from: "northernlegacygame@gmail.com",
         to: email,
@@ -136,10 +137,13 @@ app.post("/api/send-code", async (req, res) => {
         await new Promise(resolve => setTimeout(resolve, 2000)); // 2 másodperc késleltetés
         await transporter.sendMail(mailOptions);
         console.log("Email sent.");
-        res.json({ message: "Verification code sent" });
+        return res.json({ message: "Verification code sent" });
+        
     } catch (error) {
         console.error("Email send error:", error);
-        res.status(500).json({ error: "Error sending email" });
+        if (!res.headersSent) {
+            res.status(500).json({ error: "Error sending email" });
+        }
     }
 });
 
