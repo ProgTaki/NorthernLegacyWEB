@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch("http://127.0.0.1:4545/profile", {
             method: "GET",
-            credentials: "include",  // sütik engedélyezése
+            credentials: "include",  // Sütik engedélyezése
         });
 
         if (!response.ok) {
@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         const data = await response.json();
-        console.log("Felhasználónév:", data.nev);
+        console.log("Felhasználónév:", data.username);  // Javítás: `username`-t használunk
 
-        document.getElementById("prof-name").innerText = data.nev;
+        document.getElementById("prof-name").innerText = data.username; // Itt is `username`
     } catch (error) {
         console.error("Hiba:", error);
         document.getElementById("prof-name").innerText = "Nem vagy bejelentkezve.";

@@ -16,18 +16,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ name, password }),
             });
 
+            let data;
+            try {
+                data = await response.json(); // JSON próbálása
+            } catch (jsonError) {
+                console.error("Hibás JSON válasz:", jsonError);
+                throw new Error("Nem sikerült feldolgozni a szerver válaszát.");
+            }
+
             if (!response.ok) {
-                const data = await response.json();
-                errorMessage.textContent = data.message || "Hiba történt!";
+                errorMessage.textContent = data.error || "Hiba történt!";
                 return;
             }
 
-            const data = await response.json();
             alert("Bejelentkezés sikeres!");
-            // Menthetjük a tokent a helyi tárolóba (localStorage) vagy más módon, ha szükséges
-            localStorage.setItem('token', data.token);  // Mentés
-            data.username
-            window.location.href = 'log-index.html'; // Példa átirányítás a belső felületre
+            localStorage.setItem('token', data.token);  
+            window.location.href = 'log-index.html';
+
         } catch (error) {
             errorMessage.textContent = "Hiba történt a bejelentkezés során!";
             console.error("Error:", error);

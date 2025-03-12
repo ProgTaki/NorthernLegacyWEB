@@ -1,66 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-        <link rel="stylesheet" href="../CSS/style.css">
-        <link rel="stylesheet" href="../CSS/log_reg-style.css">
-        <title>NortherLegacy</title>
-    </head>
-    <body class="vh-100 owerflow-hidden">
-        <!-- Section: Design Block -->
-        <section class="background-radial-gradient overflow-hidden">
-    
-            <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/log_reg-style.css">
+
+    <script src="../JS/login.js"></script>
+    <title>NortherLegacy</title>
+</head>
+
+<body class="vh-100 owerflow-hidden">
+    <!-- Section: Design Block -->
+    <section class="background-radial-gradient overflow-hidden">
+
+        <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
-                <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
-                    <a class="navbar-brand fs-0" href="index.html">Northern Legacy</a> <br />
-                </h1>
+                    <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+                        <a class="navbar-brand fs-0" href="index.html">Northern Legacy</a> <br />
+                    </h1>
                 </div>
-        
-                <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
-                <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
-                <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
-        
-                <div class="card bg-glass">
-                    <div class="card-body px-4 py-5 px-md-5">
-                    <form method="post">
 
-                        <!-- Username input -->
-                        <div data-mdb-input-init class="form-outline mb-4">
-                            <input type="text" id="log_user" class="form-control" />
-                            <label class="form-label text-white" for="form3Example3">Username</label>
+                <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+                    <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+                    <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+                    <div class="card bg-glass">
+                        <div class="card-body px-4 py-5 px-md-5">
+                            <form method="post">
+
+                                <!-- Username input -->
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <input type="text" id="log_user" class="form-control" />
+                                    <label class="form-label text-white" for="form3Example3">Username</label>
+                                </div>
+
+                                <!-- Password input -->
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <input type="password" id="log_pass" class="form-control" />
+                                    <label class="form-label text-white" for="form3Example4">Password</label>
+                                    <a class="form-label float-end" for="form3Example4"
+                                        href="../HTML/forgot-pass.html">Forgot password?</a>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="d-grid gap-2 col-6 mx-auto">
+                                    <button id="loginButton" class="btn btn-primary" type="button">Login</button>
+                                </div>
+                                <!-- Hibaüzenet -->
+                                <p id="error-message" style="color: red; text-align: center; margin-top: 10px;"></p>
+
+                                <!-- Register buttons -->
+                                <div class="text-center text-white">
+                                    <br>
+                                    <p>Don't have account yet? <a href="register.html">Sign Up</a></p>
+                                </div>
+                            </form>
                         </div>
-        
-                        <!-- Password input -->
-                        <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="password" id="log_pass" class="form-control" />
-                        <label class="form-label text-white" for="form3Example4">Password</label>
-                        <a class="form-label float-end" for="form3Example4" href="../HTML/forgot-pass.html">Forgot password?</a>
-                        </div>
-        
-                        <!-- Submit button -->
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            <button id="loginButton" class="btn btn-primary" type="button">Login</button>
-                          </div>
-                        <!-- Register buttons -->
-                        <div class="text-center text-white">
-                            <br>
-                        <p>Don't have account yet? <a href="register.html">Sign Up</a></p>
-                        </div>
-                    </form>
                     </div>
                 </div>
-                </div>
             </div>
-            </div>
-        </section>
-        <script src="../JS/login.js"></script>
-    </body>
+        </div>
+    </section>
+</body>
+
 </html>
