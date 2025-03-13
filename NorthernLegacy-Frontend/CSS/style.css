@@ -39,3 +39,17 @@ body {
     height: 60px; /* Rögzített magasság a torzulás elkerülésére */
     object-fit: contain; /* Megőrzi az arányokat, nem nyúlik */
 }
+
+.input-group .form-control {
+    flex: 1;
+}
+.error-message {
+    color: red;
+    font-size: 14px;
+    white-space: nowrap;
+}
+.forgot-password {
+    font-size: 14px;
+    color: white;
+    text-decoration: underline;
+}

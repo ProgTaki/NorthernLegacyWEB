@@ -14,12 +14,11 @@
 
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="../CSS/log_reg-style.css">
-
-    <script src="../JS/login.js"></script>
+    <script src="../JS/login.js" defer></script>
     <title>NortherLegacy</title>
 </head>
 
-<body class="vh-100 owerflow-hidden">
+<body class="vh-100 overflow-hidden">
     <!-- Section: Design Block -->
     <section class="background-radial-gradient overflow-hidden">
 
@@ -37,20 +36,31 @@
 
                     <div class="card bg-glass">
                         <div class="card-body px-4 py-5 px-md-5">
-                            <form method="post">
+                            <form method="post" id="loginForm">
 
                                 <!-- Username input -->
-                                <div data-mdb-input-init class="form-outline mb-4">
-                                    <input type="text" id="log_user" class="form-control" />
-                                    <label class="form-label text-white" for="form3Example3">Username</label>
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label class="form-label text-white mb-0" for="log_user">Username</label>
+                                    </div>
+                                    <div class="position-relative">
+                                        <input type="text" id="log_user" class="form-control" />
+                                        <span id="user-error" class="position-absolute text-danger"
+                                            style="right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem;"></span>
+                                    </div>
                                 </div>
 
                                 <!-- Password input -->
-                                <div data-mdb-input-init class="form-outline mb-4">
-                                    <input type="password" id="log_pass" class="form-control" />
-                                    <label class="form-label text-white" for="form3Example4">Password</label>
-                                    <a class="form-label float-end" for="form3Example4"
-                                        href="../HTML/forgot-pass.html">Forgot password?</a>
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label class="form-label text-white mb-0" for="log_pass">Password</label>
+                                        <a class="small" href="../HTML/forgot-pass.html">Forgot password?</a>
+                                    </div>
+                                    <div class="position-relative">
+                                        <input type="password" id="log_pass" class="form-control" />
+                                        <span id="pass-error" class="position-absolute text-danger"
+                                            style="right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem;"></span>
+                                    </div>
                                 </div>
 
                                 <!-- Submit button -->
@@ -58,12 +68,12 @@
                                     <button id="loginButton" class="btn btn-primary" type="button">Login</button>
                                 </div>
                                 <!-- Hibaüzenet -->
-                                <p id="error-message" style="color: red; text-align: center; margin-top: 10px;"></p>
+                                <p id="error-message" class="error-message text-center"></p>
 
                                 <!-- Register buttons -->
                                 <div class="text-center text-white">
                                     <br>
-                                    <p>Don't have account yet? <a href="register.html">Sign Up</a></p>
+                                    <p>Don't have an account yet? <a href="register.html">Sign Up</a></p>
                                 </div>
                             </form>
                         </div>

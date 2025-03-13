@@ -5,8 +5,10 @@ async function sendCode(event) {
     const messageEl = document.getElementById("message");
     const button = document.getElementById("sendCodeButton");
 
-    if (!email) {
-        messageEl.textContent = "Please enter your email!";
+    // Email formátum ellenőrzés
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email || !emailPattern.test(email)) {
+        messageEl.textContent = "Please enter a valid email address!";
         messageEl.style.color = "red";
         return;
     }
@@ -17,7 +19,7 @@ async function sendCode(event) {
     button.textContent = "Sending...";
 
     try {
-        const response = await fetch("http://127.0.0.1:4545/send-code", {
+        const response = await fetch("http://127.0.0.1:4545/check-email", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email })
@@ -25,11 +27,28 @@ async function sendCode(event) {
 
         const data = await response.json();
 
-        if (data.message) {
-            messageEl.textContent = "Verification code sent!";
-            messageEl.style.color = "green";
+        if (data.exists) { // Ha létezik az email
+            const sendCodeResponse = await fetch("http://127.0.0.1:4545/send-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            });
+
+            const sendCodeData = await sendCodeResponse.json();
+
+            if (sendCodeData.message) {
+                messageEl.textContent = "Verification code sent!";
+                messageEl.style.color = "green";
+
+                setTimeout(() => {
+                    window.location.href = "newpassword.html"; // Céloldal átirányítása sikeres küldés esetén
+                }, 5000); // Várunk 5 másodpercet a átirányításhoz
+            } else {
+                messageEl.textContent = "Something went wrong!";
+                messageEl.style.color = "red";
+            }
         } else {
-            messageEl.textContent = "Something went wrong!";
+            messageEl.textContent = "Email not found!";
             messageEl.style.color = "red";
         }
     } catch (error) {
@@ -42,10 +61,6 @@ async function sendCode(event) {
             button.textContent = "Send Code";
         }, 2000); // Kis késleltetés, hogy ne lehessen spamolni
     }
-
-    setTimeout(() => {
-        window.location.href = "newpassword.html"; // Ide írd be a céloldal URL-jét
-    }, 5000); 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,4 +71,4 @@ document.addEventListener("DOMContentLoaded", () => {
         const newButton = document.getElementById("sendCodeButton"); // Újra lekérjük az ID-t
         newButton.addEventListener("click", sendCode);
     }
-})
+});

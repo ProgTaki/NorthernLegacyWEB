@@ -11,6 +11,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const crypto = require("crypto");
 const morgan = require("morgan");
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -134,6 +135,28 @@ app.post("/send-code", async (req, res) => {
         res.json({ message: "Verification code sent" });
     } catch (error) {
         res.status(500).json({ error: "Error sending email" });
+    }
+});
+
+// EMAIL CÍM ELLENŐRZÉS
+app.post("/check-email", async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ error: "Email is required" });
+        }
+
+        // Ellenőrizzük, hogy az email létezik-e az adatbázisban
+        const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
+
+        if (users.length > 0) {
+            return res.json({ exists: true });  // Az email létezik
+        } else {
+            return res.json({ exists: false }); // Az email nem létezik
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Error checking email" });
     }
 });
 
