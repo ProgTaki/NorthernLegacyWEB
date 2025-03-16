@@ -1,3 +1,4 @@
+// Stats animation
 function toggleStats() {
     let stats1 = document.getElementById("stats1");
     let stats2 = document.getElementById("stats2");

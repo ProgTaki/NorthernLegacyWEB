@@ -1,5 +1,7 @@
+/* ---------------- Háttér ---------------- */
 body {
-    background: url(../IMG/vk-bg1.jpg) #323d3f; /* Háttér resp !!! */
+    background: url(../IMG/vk-bg1.jpg) #323d3f;
+    /* Háttér resp !!! */
     background-blend-mode: multiply;
     background-position: center;
     background-size: cover;
@@ -17,7 +19,7 @@ body {
     background-color: #323d3f;
 }
 
-
+/* ---------------- Download magasság ---------------- */
 .dow {
     margin-top: -65px;
 }
@@ -26,30 +28,109 @@ body {
     margin-top: -65px;
 }
 
+.input-group .form-control {
+    flex: 1;
+}
+
+
+
+/* ---------------- Animációk ---------------- */
+
+/* Navbar betöltési animáció */
+.navbar {
+    transform: translateY(-100%);
+    opacity: 0;
+    animation: slideDown 0.8s ease-out forwards;
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Download It szöveg animáció */
+.dow h1 {
+    transform: translateY(50px);
+    opacity: 0;
+    animation: fadeUpText 1s ease-out 0.5s forwards;
+}
+
+/* You need to login szöveg animáció */
+.st-log-err {
+    transform: translateY(50px);
+    opacity: 0;
+    animation: fadeUpText 1s ease-out 0.5s forwards; /* Késleltetett animáció */
+}
+
+.navbar-brand {
+    transform: translateY(50px);
+    opacity: 0;
+    animation: fadeUpText 1s ease-out 0.5s forwards;
+}
+
+@keyframes fadeUpText {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Download gomb betöltési animáció */
+#dwButton {
+    transform: translateY(50px);
+    opacity: 0;
+    animation: fadeUpButton 1s ease-out 1s forwards;
+    /* Késleltetve */
+}
+
+@keyframes fadeUpButton {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Bejelentkezési kártya animáció (jobbról) */
+.card {
+    transform: translateX(100%);
+    opacity: 0;
+    animation: slideInFromRight 1s ease-out forwards;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Stats animációk */
 .fade-in {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
+
 .fade-in.show {
     opacity: 1;
-}
-
-.logo-img {
-    width: 60px;  /* A kívánt méret */
-    height: 60px; /* Rögzített magasság a torzulás elkerülésére */
-    object-fit: contain; /* Megőrzi az arányokat, nem nyúlik */
-}
-
-.input-group .form-control {
-    flex: 1;
-}
-.error-message {
-    color: red;
-    font-size: 14px;
-    white-space: nowrap;
-}
-.forgot-password {
-    font-size: 14px;
-    color: white;
-    text-decoration: underline;
 }
