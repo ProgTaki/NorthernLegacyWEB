@@ -19,14 +19,18 @@
 </head>
 
 <body class="vh-100 overflow-hidden">
-    <!-- Section: Design Block -->
+    
+    <video autoplay loop muted playsinline id="background-video">
+        <source src="../Downloads/viking_bg2.mp4" type="video/mp4">
+    </video>
+
     <section class="background-radial-gradient overflow-hidden">
 
         <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
                     <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
-                        <a class="navbar-brand fs-0" href="index.html">Northern Legacy</a> <br />
+                        <a class="navbar-brand fs-0 text-sh" href="index.html">Northern Legacy</a> <br />
                     </h1>
                 </div>
 
@@ -41,7 +45,7 @@
                                 <!-- Username input -->
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <label class="form-label text-white mb-0" for="log_user">Username</label>
+                                        <label class="form-label text-white mb-0 text-sh" for="log_user">Username</label>
                                     </div>
                                     <div class="position-relative">
                                         <input type="text" id="log_user" class="form-control" />
@@ -53,11 +57,11 @@
                                 <!-- Password input -->
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <label class="form-label text-white mb-0" for="log_pass">Password</label>
+                                        <label class="form-label text-white mb-0 text-sh" for="log_pass">Password</label>
                                         <a class="small" href="../HTML/forgot-pass.html">Forgot password?</a>
                                     </div>
                                     <div class="position-relative">
-                                        <input type="password" id="log_pass" class="form-control" />
+                                        <input type="password" id="log_pass" class="form-control input-field" />
                                         <span id="pass-error" class="position-absolute text-danger"
                                             style="right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem;"></span>
                                     </div>

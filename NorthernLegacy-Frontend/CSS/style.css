@@ -1,12 +1,51 @@
 /* ---------------- Háttér ---------------- */
+
+/*
 body {
     background: url(../IMG/vk-bg1.jpg) #323d3f;
-    /* Háttér resp !!! */
     background-blend-mode: multiply;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+}*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#background-video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100vw;
+    min-height: 100vh;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    object-fit: cover;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    padding-top: 20%;
+}
+
+
+
 
 @media(max-width: 991px) {
     .sidebar {
@@ -18,6 +57,8 @@ body {
 .st-card {
     background-color: #323d3f;
 }
+
+
 
 /* ---------------- Download magasság ---------------- */
 .dow {
@@ -35,25 +76,6 @@ body {
 
 
 /* ---------------- Animációk ---------------- */
-
-/* Navbar betöltési animáció */
-.navbar {
-    transform: translateY(-100%);
-    opacity: 0;
-    animation: slideDown 0.8s ease-out forwards;
-}
-
-@keyframes slideDown {
-    0% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
 
 /* Download It szöveg animáció */
 .dow h1 {
@@ -107,7 +129,67 @@ body {
     }
 }
 
-/* Bejelentkezési kártya animáció (jobbról) */
+/* Navbar betöltési animáció */
+.navbar {
+    opacity: 1;
+    transform: none;
+}
+
+/* Animáció a Logo megjelenésére */
+.navbar-brand {
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: fadeInLogo 0.5s ease-out forwards;
+}
+
+/* Animáció a Navbar linkek megjelenésére */
+.navbar-nav {
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: fadeInNavbarItems 0.7s ease-out forwards;
+}
+
+/* Animáció a Login / Sign Up gombok megjelenésére */
+.navbar .d-flex a {
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: fadeInButtons 0.7s ease-out forwards;
+}
+
+@keyframes fadeInLogo {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInNavbarItems {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInButtons {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Bejelentkezés/regisztráció kártya animáció (jobbról) */
 .card {
     transform: translateX(100%);
     opacity: 0;
@@ -133,4 +215,98 @@ body {
 
 .fade-in.show {
     opacity: 1;
+}
+
+/* ---------------- Taki gombok ---------------- */
+.taki_glow-button {
+    padding: 15px 30px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid #fff;
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.taki_glow-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0));
+    opacity: 0;
+    transition: opocity 0.3s;
+}
+
+.taki_glow-button:hover {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 0 15px #fff, 0 0 30px #fff, 0 0 45px #fff;
+    transform: scale(1.1) translateY(-3px);
+}
+
+.taki_glow-button:hover::before {
+    opacity: 1;
+}
+
+/* Sign Up - Logout (JEGELVE) */
+/*
+.taki_su-lo-button {
+    background: none;
+    border: 2px solid #000;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    min-width: 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: color 0.4s linear;
+    position: relative;
+}
+
+.taki_su-lo-button:hover {
+    color: #fff;
+}
+
+.taki_su-lo-button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: -1;
+    transition: transform 0.5s;
+    transform-origin: 0 0;
+    transition-timing-function: cubic-bezier(0.5,1.6,0.4,0.7);
+}
+
+.taki-button1::before {
+    transform: scaleX(0);
+}
+
+.taki-button1:hover::before {
+    transform: skewX(1);
+}
+*/
+
+
+/* ---------------- Egyéb ---------------- */
+.text-sh {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.bg-glass {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(25px);
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.7);
 }
