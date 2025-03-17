@@ -12,6 +12,7 @@ const helmet = require("helmet");
 const crypto = require("crypto");
 const morgan = require("morgan");
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -110,6 +111,28 @@ app.get("/profile", (req, res) => {
     });
 });
 
+// EMAIL CÍM ELLENŐRZÉS
+app.post("/check-email", async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ error: "Email is required" });
+        }
+
+        // Ellenőrizzük, hogy az email létezik-e az adatbázisban
+        const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
+
+        if (users.length > 0) {
+            return res.json({ exists: true });  // Az email létezik
+        } else {
+            return res.json({ exists: false }); // Az email nem létezik
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Error checking email" });
+    }
+});
+
 // EMAIL KÜLDÉS
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -138,32 +161,87 @@ app.post("/send-code", async (req, res) => {
     }
 });
 
-// EMAIL CÍM ELLENŐRZÉS
-app.post("/check-email", async (req, res) => {
+// Email küldés
+app.post("/send-code", async (req, res) => {
     try {
         const { email } = req.body;
+        if (!email) return res.status(400).json({ error: "Email is required" });
 
-        if (!email) {
-            return res.status(400).json({ error: "Email is required" });
-        }
+        // Generáljunk egy 6 karakteres verifikációs kódot
+        const verificationCode = crypto.randomInt(100000, 999999);
+        const expiry = new Date();
+        expiry.setMinutes(expiry.getMinutes() + 10); // A kód 10 percig érvényes
 
-        // Ellenőrizzük, hogy az email létezik-e az adatbázisban
+        // Tároljuk a kódot és a lejárati időt az adatbázisban
         const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
-
-        if (users.length > 0) {
-            return res.json({ exists: true });  // Az email létezik
-        } else {
-            return res.json({ exists: false }); // Az email nem létezik
+        if (users.length === 0) {
+            return res.status(404).json({ error: "Email not found." });
         }
+
+        // Frissítjük a verifikációs kódot és lejárati időt
+        await db.execute("UPDATE users SET verification_code = ?, code_expiry = ? WHERE email = ?", 
+            [verificationCode, expiry, email]);
+
+        // Küldjük el az emailt
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Your Verification Code",
+            text: `Your verification code is: ${verificationCode}`
+        });
+
+        res.json({ message: "Verification code sent" });
     } catch (error) {
-        res.status(500).json({ error: "Error checking email" });
+        res.status(500).json({ error: "Error sending email" });
     }
 });
+
+// Jelszó visszaállítás
+app.post("/reset-password", async (req, res) => {
+    try {
+        const { email, verificationCode, newPassword } = req.body;
+
+        if (!email || !verificationCode || !newPassword) {
+            return res.status(400).json({ error: "Email, verification code and new password are required." });
+        }
+
+        // Ellenőrizzük a verifikációs kódot és annak lejáratát
+        const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
+        if (users.length === 0) {
+            return res.status(404).json({ error: "Email not found." });
+        }
+
+        const user = users[0];
+        const currentTime = new Date();
+
+        // Ha a kód lejárt
+        if (currentTime > new Date(user.code_expiry)) {
+            return res.status(400).json({ error: "Verification code has expired." });
+        }
+
+        // Ha a kód nem egyezik
+        if (user.verification_code !== parseInt(verificationCode)) {
+            return res.status(400).json({ error: "Invalid verification code." });
+        }
+
+        // Titkosítjuk az új jelszót
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Frissítjük a jelszót az adatbázisban
+        await db.execute("UPDATE users SET password = ? WHERE email = ?", [hashedPassword, email]);
+
+        // A kódot nullázzuk, hogy ne lehessen többször használni
+        await db.execute("UPDATE users SET verification_code = NULL, code_expiry = NULL WHERE email = ?", [email]);
+
+        res.json({ message: "Password has been updated successfully." });
+    } catch (error) {
+        console.error("Error resetting password:", error);
+        return res.status(500).json({ error: "Error resetting password" });
+    }
+});
+
 
 // Szerver indítása
 app.listen(process.env.PORT, () => {
     console.log(`IP: ${process.env.HOSTNAME}:${process.env.PORT}`);
 });
-/*
-const PORT = process.env.PORT || 4545;
-app.listen(PORT, () => console.log(`Szerver fut a ${PORT} porton`));*/
