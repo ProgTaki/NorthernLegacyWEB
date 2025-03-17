@@ -66,7 +66,7 @@
                     <!-- Login / Sign Up -->
                     <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-3">
                         <span class="text-white userName" id="prof-name">Name</span>
-                        <a href="login.html" class="text-black text-decoration-none px-3 py-1 rounded-4"
+                        <a href="login.html" class=" text-black text-decoration-none px-3 py-1 rounded-4"
                             style="background-color: #ffffff;">LogOut</a>
                     </div>
                 </div>
@@ -75,91 +75,92 @@
     </nav>
 
     <!-- Playtrough -->
-    <div class="container mt-5 pt-5">
+    <div class="container mt-5 pt-5 text-center">
         <div class="d-flex justify-content-center align-items-center mb-4">
-            <button class="btn btn-outline-secondary me-3 text-white" onclick="toggleStats()">←</button>
-            <h1 class="text-white mb-0">Playtrough</h1>
-            <button class="btn btn-outline-secondary ms-3 text-white" onclick="toggleStats()">→</button>
+            <button class="taki-button2 me-3" onclick="toggleStats()">&#8592;</button>
+            <h1 class="text-white text-sh mb-0">Playthrough</h1>
+            <button class="taki-button2 ms-3" onclick="toggleStats()">&#8594;</button>
         </div>
-        <div id="stats1" class="stats-container fade-in">
-            <h1 class="text-center mb-4 text-white">Game Statistics</h1>
-            <div class="row">
-                <div class="col-md-4 mb-3 l-div">
-                    <div class="card text-white st-card text-center p-3">
+
+        <div id="stats1" class="stats-container fade-in show">
+            <h2 class="text-center mb-4 text-white">First Playthrough Stats</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Raids Defeated</h5>
                         <p class="display-4">120</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Time Spent</h5>
                         <p class="display-4">250h</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Gold Collected</h5>
                         <p class="display-4">500K</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Army Size</h5>
                         <p class="display-4">15,000</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
-                        <h5>Battle Wins/Losses</h5>
-                        <p class="display-4">45 / 10</p>
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
+                        <h5>Population</h5>
+                        <p class="display-4">120,000</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
-                        <h5>Population</h5>
-                        <p class="display-4">100,000</p>
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
+                        <h5>Battle Wins/Losses</h5>
+                        <p class="display-4">50 / 8</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="stats2" class="stats-container fade-in" style="display: none;">
-            <h1 class="text-center mb-4 text-white">Game Statistics</h1>
-            <div class="row">
-                <div class="col-md-4 mb-3 l-div">
-                    <div class="card text-white st-card text-center p-3">
+            <h2 class="text-center mb-4 text-white">Second Playthrough Stats</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Raids Defeated</h5>
                         <p class="display-4">150</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Time Spent</h5>
                         <p class="display-4">300h</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Gold Collected</h5>
                         <p class="display-4">700K</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
                         <h5>Army Size</h5>
                         <p class="display-4">15,000</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
-                        <h5>Battle Wins/Losses</h5>
-                        <p class="display-4">45 / 10</p>
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
+                        <h5>Population</h5>
+                        <p class="display-4">120,000</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white st-card text-center p-3">
-                        <h5>Population</h5>
-                        <p class="display-4">100,000</p>
+                <div class="col-md-4 mb-4">
+                    <div class="card st-card text-white text-center p-4 bg-glass">
+                        <h5>Battle Wins/Losses</h5>
+                        <p class="display-4">50 / 8</p>
                     </div>
                 </div>
             </div>
