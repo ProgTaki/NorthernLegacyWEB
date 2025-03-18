@@ -14,7 +14,7 @@ async function sendCode(event) {
     }
 
     if (button.disabled) return; // Ha már folyamatban van egy küldés, ne induljon újra
-
+    sessionStorage.setItem("resetEmail", email); // Email mentése
     button.disabled = true;
     button.textContent = "Sending...";
 
