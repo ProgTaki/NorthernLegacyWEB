@@ -200,6 +200,7 @@ app.post("/send-code", async (req, res) => {
 app.post("/reset-password", async (req, res) => {
     try {
         const { email, verificationCode, newPassword } = req.body;
+        console.log("Received request body:", req.body);
 
         if (!email || !verificationCode || !newPassword) {
             return res.status(400).json({ error: "Email, verification code and new password are required." });

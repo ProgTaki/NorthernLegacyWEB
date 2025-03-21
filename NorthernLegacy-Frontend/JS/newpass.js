@@ -1,16 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("resetPasswordForm");
+    const changePasswordButton = document.getElementById("changePasswordButton");
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const email = localStorage.getItem("resetEmail"); // Az emailt a localStorage-ból vesszük
-        const verificationCode = document.getElementById("verificationCode").value;
-        const newPassword = document.getElementById("newPassword").value;
-        const confirmPassword = document.getElementById("confirmPassword").value;
-
+    changePasswordButton.addEventListener("click", async () => {
+        const email = localStorage.getItem("resetEmail");
+        const verificationCode = document.getElementById("verification_code").value;
+        const newPassword = document.getElementById("new_password").value;
+        const confirmPassword = document.getElementById("confirm_new_password").value;
+        console.log(sessionStorage.getItem("resetEmail"));
         if (!email) {
             alert("Missing email. Please restart the process.");
+            return;
+        }
+
+        if (!verificationCode) {
+            alert("Please enter the verification code.");
             return;
         }
 
@@ -20,8 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch("/reset-password", {
+            const response = await fetch("http://127.0.0.1:4545/reset-password", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
