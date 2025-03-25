@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const verificationCode = document.getElementById("verification_code").value;
         const newPassword = document.getElementById("new_password").value;
         const confirmPassword = document.getElementById("confirm_new_password").value;
-        console.log(sessionStorage.getItem("resetEmail"));
+        console.log(localStorage.getItem("resetEmail"));
         if (!email) {
             alert("Missing email. Please restart the process.");
             return;

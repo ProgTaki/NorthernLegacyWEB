@@ -146,41 +146,26 @@ app.post("/send-code", async (req, res) => {
     try {
         const { email } = req.body;
         if (!email) return res.status(400).json({ error: "Email is required" });
-        
-        const verificationCode = crypto.randomInt(100000, 999999);
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: "Your Verification Code",
-            text: `Your verification code is: ${verificationCode}`
-        });
-        
-        res.json({ message: "Verification code sent" });
-    } catch (error) {
-        res.status(500).json({ error: "Error sending email" });
-    }
-});
 
-// Email küldés
-app.post("/send-code", async (req, res) => {
-    try {
-        const { email } = req.body;
-        if (!email) return res.status(400).json({ error: "Email is required" });
+        // Generáljuk a verification code-ot
+        const verificationCode = crypto.randomInt(100000, 999999).toString();
+        const expiryDate = new Date(Date.now() + 10 * 60 * 1000); // 10 percig érvényes
 
-        // Generáljunk egy 6 karakteres verifikációs kódot
-        const verificationCode = crypto.randomInt(100000, 999999);
-        const expiry = new Date();
-        expiry.setMinutes(expiry.getMinutes() + 10); // A kód 10 percig érvényes
+        // Frissítjük az adatbázisban a verification code-ot és annak lejáratát
+        const [result] = await db.execute(
+            "UPDATE users SET verification_code = ?, code_expiry = ? WHERE email = ?",
+            [verificationCode, expiryDate, email]
+        );
 
-        // Tároljuk a kódot és a lejárati időt az adatbázisban
-        const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
-        if (users.length === 0) {
-            return res.status(404).json({ error: "Email not found." });
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "User not found!" });
         }
 
-        // Frissítjük a verifikációs kódot és lejárati időt
-        await db.execute("UPDATE users SET verification_code = ?, code_expiry = ? WHERE email = ?", 
-            [verificationCode, expiry, email]);
+        // Mentsük el az adatbázisba
+        await db.execute(
+            "UPDATE users SET verification_code = ?, code_expiry = ? WHERE email = ?",
+            [verificationCode, expiryDate, email]
+        );
 
         // Küldjük el az emailt
         await transporter.sendMail({
@@ -190,11 +175,14 @@ app.post("/send-code", async (req, res) => {
             text: `Your verification code is: ${verificationCode}`
         });
 
-        res.json({ message: "Verification code sent" });
+        res.status(200).json({ message: "Verification code sent and saved to DB" });
     } catch (error) {
-        res.status(500).json({ error: "Error sending email" });
+        console.error("Error in send-code:", error);
+        res.status(500).json({ error: "Error sending verification code" });
     }
 });
+
+
 
 // Jelszó visszaállítás
 app.post("/reset-password", async (req, res) => {
@@ -206,7 +194,7 @@ app.post("/reset-password", async (req, res) => {
             return res.status(400).json({ error: "Email, verification code and new password are required." });
         }
 
-        // Ellenőrizzük a verifikációs kódot és annak lejáratát
+        // Ellenőrizzük, hogy létezik-e az email a felhasználók között
         const [users] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
         if (users.length === 0) {
             return res.status(404).json({ error: "Email not found." });
@@ -215,23 +203,23 @@ app.post("/reset-password", async (req, res) => {
         const user = users[0];
         const currentTime = new Date();
 
-        // Ha a kód lejárt
+        // Ellenőrizzük, hogy a verifikációs kód lejárt-e
         if (currentTime > new Date(user.code_expiry)) {
             return res.status(400).json({ error: "Verification code has expired." });
         }
 
-        // Ha a kód nem egyezik
+        // Ellenőrizzük, hogy a verifikációs kód egyezik-e
         if (user.verification_code !== parseInt(verificationCode)) {
             return res.status(400).json({ error: "Invalid verification code." });
         }
 
-        // Titkosítjuk az új jelszót
+        // Jelszó titkosítása
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        // Frissítjük a jelszót az adatbázisban
+        // Jelszó frissítése az adatbázisban
         await db.execute("UPDATE users SET password = ? WHERE email = ?", [hashedPassword, email]);
 
-        // A kódot nullázzuk, hogy ne lehessen többször használni
+        // Nullázzuk a verifikációs kódot, hogy ne lehessen újra használni
         await db.execute("UPDATE users SET verification_code = NULL, code_expiry = NULL WHERE email = ?", [email]);
 
         res.json({ message: "Password has been updated successfully." });
@@ -240,6 +228,7 @@ app.post("/reset-password", async (req, res) => {
         return res.status(500).json({ error: "Error resetting password" });
     }
 });
+
 
 
 // Szerver indítása
