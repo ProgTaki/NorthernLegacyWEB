@@ -213,8 +213,8 @@ app.post("/reset-password", async (req, res) => {
             return res.status(400).json({ error: "Invalid verification code." });
         }
 
-        // Jelszó titkosítása
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        // Jelszó titkosítása Argon2-vel
+        const hashedPassword = await argon2.hash(newPassword);
 
         // Jelszó frissítése az adatbázisban
         await db.execute("UPDATE users SET password = ? WHERE email = ?", [hashedPassword, email]);
@@ -228,7 +228,6 @@ app.post("/reset-password", async (req, res) => {
         return res.status(500).json({ error: "Error resetting password" });
     }
 });
-
 
 
 // Szerver indítása
