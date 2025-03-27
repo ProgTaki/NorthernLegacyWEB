@@ -11,8 +11,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const crypto = require("crypto");
 const morgan = require("morgan");
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+
 
 const app = express();
 
