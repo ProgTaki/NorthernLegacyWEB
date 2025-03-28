@@ -89,7 +89,6 @@ app.post("/login", async (req, res) => {
             sameSite: "Lax",
         });
 
-        // FONTOS: Itt biztosan küld vissza JSON-t!
         res.status(200).json({ token, user: { id: user.id, username: user.username, email: user.email } });
 
     } catch (error) {
@@ -146,11 +145,11 @@ app.post("/send-code", async (req, res) => {
         const { email } = req.body;
         if (!email) return res.status(400).json({ error: "Email is required" });
 
-        // Generáljuk a verification code-ot
+        // Verification code
         const verificationCode = crypto.randomInt(100000, 999999).toString();
         const expiryDate = new Date(Date.now() + 10 * 60 * 1000); // 10 percig érvényes
 
-        // Frissítjük az adatbázisban a verification code-ot és annak lejáratát
+        // Verifaction code ellenőrzés
         const [result] = await db.execute(
             "UPDATE users SET verification_code = ?, code_expiry = ? WHERE email = ?",
             [verificationCode, expiryDate, email]
@@ -160,13 +159,13 @@ app.post("/send-code", async (req, res) => {
             return res.status(404).json({ error: "User not found!" });
         }
 
-        // Mentsük el az adatbázisba
+        // Adatbázisba mentése
         await db.execute(
             "UPDATE users SET verification_code = ?, code_expiry = ? WHERE email = ?",
             [verificationCode, expiryDate, email]
         );
 
-        // Küldjük el az emailt
+        // EMAIL küldés
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
