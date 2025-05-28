@@ -207,7 +207,7 @@ app.post("/reset-password", async (req, res) => {
         }
 
         // Ellenőrizzük, hogy a verifikációs kód egyezik-e
-        if (user.verification_code !== parseInt(verificationCode)) {
+        if (user.verification_code !== verificationCode) {
             return res.status(400).json({ error: "Invalid verification code." });
         }
 
